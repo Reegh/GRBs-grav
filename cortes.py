@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # 1. Leer datos
-file_path = "data/2014_2022.xls"
+file_path = "data/2022.xls"
 df = pd.read_excel(file_path, sheet_name="fermigbrst")
 
 # 2. Limpieza básica
@@ -12,7 +12,8 @@ required_cols = [
     "flux_64",
     "t90_error", "t50_error",
     "flux_64_error",
-    "dec"
+    "dec",
+    "error_radius"
 ]
 
 df = df.dropna(subset=required_cols)
@@ -61,7 +62,7 @@ df["cut_duration_ratio"] = (
 df["cut_flux64"] = (df["flux_64"] - df["flux_64_error"]) < 10.0  # ph cm^-2 s^-1
 
 # (e) Corte en declinación
-df["cut_dec"] = (df["dec"] >= -10) & (df["dec"] <= 50)
+df["cut_dec"] = (df["dec"] - df["error_radius"] >= -10) & (df["dec"] + df["error_radius"] <= 50)
 
 # 4. Corte global
 df["passes_all_cuts"] = (
@@ -89,6 +90,7 @@ columns_full = [
     "t50", "t50_error",
     "flux_64", "flux_64_error",
     "dec",
+    "error_radius",
     "relative_peak_time", "relative_peak_time_error",
     "t50_t90", "t50_t90_error",
     "cut_t90", "cut_peak_time",
