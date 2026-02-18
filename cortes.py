@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 
 # 1. Leer datos
-file_path = "data/GRBsData2014_2022a.txt"
-#df = pd.read_excel(file_path, sheet_name="fermigbrst")
-df = pd.read_csv(file_path, sep="\t")
+file_path = "data/2022_2026.xls"
+df = pd.read_excel(file_path, sheet_name="fermigbrst")
+#df = pd.read_csv(file_path, sep="\t")
 
 # 2. Limpieza básica
 required_cols = [
@@ -86,7 +86,7 @@ print("Después de declinación:", df["passes_all_cuts"].sum())
 
 # 6. Guardar prueba de cortes completa
 columns_full = [
-    "## name",
+    "name",
     "t90", "t90_error",
     "t50", "t50_error",
     "flux_64", "flux_64_error",
@@ -101,12 +101,12 @@ columns_full = [
 ]
 
 df[columns_full].to_csv(
-    "cortes/grbs_temporal_cuts_full_2014.csv",
+    "cortes/grbs_temporal_cuts_full_2026.csv",
     index=False
 )
 
 # 7. Guardar muestra final
 df[df["passes_all_cuts"]].to_csv(
-    "cortes/grbs_temporal_cuts_selected_2014.csv",
+    "cortes/grbs_temporal_cuts_selected_2026.csv",
     index=False
 )
